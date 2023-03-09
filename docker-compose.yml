@@ -52,5 +52,18 @@ services:
     volumes:
       - tmpl_djnp:/var/lib/postgresql/data
 
+  s3:
+    build: ./docker/s3
+    container_name: ${DB_S3_HOST}
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${DB_S3_USER}
+      MINIO_ROOT_PASSWORD: ${DB_S3_PASS}
+    ports:
+      - ${DB_S3_PORT_API}:${DB_S3_PORT_API}
+      - ${DB_S3_PORT_WEB}:${DB_S3_PORT_WEB}
+    volumes:
+      - ./docker/s3/s3-data:/data
+
 volumes:
   tmpl_djnp:
